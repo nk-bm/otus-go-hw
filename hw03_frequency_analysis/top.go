@@ -22,7 +22,7 @@ var re = regexp.MustCompile(`[[:punct:]]+$`)
 func (wl *wordsList) addWord(str string) {
 	if wl.withAsterisk {
 		cleanStr := re.ReplaceAllString(str, "")
-		if len(cleanStr) == 0 {
+		if cleanStr == "" {
 			if len(str) == 1 {
 				return
 			}
