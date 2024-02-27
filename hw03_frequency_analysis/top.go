@@ -1,6 +1,7 @@
 package hw03frequencyanalysis
 
 import (
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -11,11 +12,26 @@ type word struct {
 }
 
 type wordsList struct {
-	words  []*word
-	markup map[string]*word
+	words        []*word
+	markup       map[string]*word
+	withAsterisk bool
 }
 
+var re = regexp.MustCompile(`[[:punct:]]+$`)
+
 func (wl *wordsList) addWord(str string) {
+	if wl.withAsterisk {
+		cleanStr := re.ReplaceAllString(str, "")
+		if len(cleanStr) == 0 {
+			if len(str) == 1 {
+				return
+			}
+		} else {
+			str = cleanStr
+		}
+		str = strings.ToLower(str)
+	}
+
 	if w, exists := wl.markup[str]; exists {
 		w.count++
 	} else {
@@ -39,15 +55,16 @@ func (wl *wordsList) getTop(n int) (res []string) {
 	return
 }
 
-func newWordsList() *wordsList {
+func newWordsList(withAsterisk bool) *wordsList {
 	return &wordsList{
-		words:  []*word{},
-		markup: make(map[string]*word),
+		words:        []*word{},
+		markup:       make(map[string]*word),
+		withAsterisk: withAsterisk,
 	}
 }
 
-func Top10(str string) []string {
-	wl := newWordsList()
+func Top10(str string, withAsterisk bool) []string {
+	wl := newWordsList(withAsterisk)
 	for _, word := range strings.Fields(str) {
 		wl.addWord(word)
 	}
