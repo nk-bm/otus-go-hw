@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	fmt.Println(stringutil.Reverse("Hello OTUS!"))
+	fmt.Println(stringutil.Reverse("Hello, OTUS!"))
 }
