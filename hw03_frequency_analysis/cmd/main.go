@@ -41,6 +41,6 @@ const text = `Как видите, он  спускается  по  лестн�
 		В этот вечер...`
 
 func main() {
-	res := hw03frequencyanalysis.Top10(text, false)
+	res := hw03frequencyanalysis.Top10(text)
 	fmt.Println(res)
 }
