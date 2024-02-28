@@ -32,7 +32,7 @@ func Unpack(str string) (string, error) {
 			}
 			buf = strconv.Itoa(int(currentRune - '0'))
 		} else {
-			if shield && currentRune != 92 {
+			if shield && currentRune != '\\' {
 				return "", ErrInvalidString
 			}
 			buf = string(currentRune)
