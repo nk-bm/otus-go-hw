@@ -18,7 +18,7 @@ func Unpack(str string) (string, error) {
 
 	for i := 0; i < runesNum; i++ {
 		currentRune := runes[i]
-		if currentRune == 92 && !shield {
+		if currentRune == '\\' && !shield {
 			if i+1 >= runesNum {
 				return "", ErrInvalidString
 			}
@@ -30,7 +30,7 @@ func Unpack(str string) (string, error) {
 			if !shield {
 				return "", ErrInvalidString
 			}
-			buf = strconv.Itoa(int(currentRune - 48))
+			buf = strconv.Itoa(int(currentRune - '0'))
 		} else {
 			if shield && currentRune != 92 {
 				return "", ErrInvalidString
