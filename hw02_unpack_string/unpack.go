@@ -10,14 +10,18 @@ var ErrInvalidString = errors.New("invalid string")
 
 func Unpack(str string) (string, error) {
 	runes := []rune(str)
+	runesNum := len(runes)
 
 	var res strings.Builder
 	var shield bool
 	var buf string
 
-	for i := 0; i < len(runes); i++ {
+	for i := 0; i < runesNum; i++ {
 		currentSymbol := runes[i]
 		if currentSymbol == 92 && !shield {
+			if i+1 >= runesNum {
+				return "", ErrInvalidString
+			}
 			shield = true
 			continue
 		}
@@ -34,8 +38,8 @@ func Unpack(str string) (string, error) {
 			buf = string(currentSymbol)
 		}
 
-		shield = false
-		if i+1 < len(runes) {
+		if i+1 < runesNum {
+			shield = false
 			if repeatCount, err := strconv.Atoi(string(runes[i+1])); err == nil {
 				if repeatCount > 0 {
 					res.WriteString(strings.Repeat(buf, repeatCount))
@@ -44,7 +48,6 @@ func Unpack(str string) (string, error) {
 				continue
 			}
 		}
-
 		res.WriteRune(currentSymbol)
 	}
 
