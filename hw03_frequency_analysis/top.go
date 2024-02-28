@@ -63,7 +63,8 @@ func newWordsList(withAsterisk bool) *wordsList {
 	}
 }
 
-func Top10(str string, withAsterisk bool) []string {
+func Top10(str string) []string {
+	withAsterisk := true
 	wl := newWordsList(withAsterisk)
 	for _, word := range strings.Fields(str) {
 		wl.addWord(word)
