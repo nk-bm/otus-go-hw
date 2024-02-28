@@ -17,8 +17,8 @@ func Unpack(str string) (string, error) {
 	var buf string
 
 	for i := 0; i < runesNum; i++ {
-		currentSymbol := runes[i]
-		if currentSymbol == 92 && !shield {
+		currentRune := runes[i]
+		if currentRune == 92 && !shield {
 			if i+1 >= runesNum {
 				return "", ErrInvalidString
 			}
@@ -26,16 +26,16 @@ func Unpack(str string) (string, error) {
 			continue
 		}
 
-		if currentSymbol >= '0' && currentSymbol <= '9' {
+		if currentRune >= '0' && currentRune <= '9' {
 			if !shield {
 				return "", ErrInvalidString
 			}
-			buf = strconv.Itoa(int(currentSymbol - 48))
+			buf = strconv.Itoa(int(currentRune - 48))
 		} else {
-			if shield && currentSymbol != 92 {
+			if shield && currentRune != 92 {
 				return "", ErrInvalidString
 			}
-			buf = string(currentSymbol)
+			buf = string(currentRune)
 		}
 
 		if i+1 < runesNum {
@@ -48,7 +48,7 @@ func Unpack(str string) (string, error) {
 				continue
 			}
 		}
-		res.WriteRune(currentSymbol)
+		res.WriteRune(currentRune)
 	}
 
 	return res.String(), nil
