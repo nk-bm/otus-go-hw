@@ -6,21 +6,22 @@ import (
 	"strings"
 )
 
+const taskWithAsterisk = true
+
 type word struct {
 	word  string
 	count int
 }
 
 type wordsList struct {
-	words        []*word
-	markup       map[string]*word
-	withAsterisk bool
+	words  []*word
+	markup map[string]*word
 }
 
 var re = regexp.MustCompile(`[[:punct:]]+$`)
 
 func (wl *wordsList) addWord(str string) {
-	if wl.withAsterisk {
+	if taskWithAsterisk {
 		cleanStr := re.ReplaceAllString(str, "")
 		if cleanStr == "" {
 			if len(str) == 1 {
@@ -55,17 +56,15 @@ func (wl *wordsList) getTop(n int) (res []string) {
 	return
 }
 
-func newWordsList(withAsterisk bool) *wordsList {
+func newWordsList() *wordsList {
 	return &wordsList{
-		words:        []*word{},
-		markup:       make(map[string]*word),
-		withAsterisk: withAsterisk,
+		words:  []*word{},
+		markup: make(map[string]*word),
 	}
 }
 
 func Top10(str string) []string {
-	withAsterisk := true
-	wl := newWordsList(withAsterisk)
+	wl := newWordsList()
 	for _, word := range strings.Fields(str) {
 		wl.addWord(word)
 	}
